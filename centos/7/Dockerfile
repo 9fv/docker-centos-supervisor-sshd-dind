@@ -12,9 +12,12 @@ WORKDIR /root
 RUN yum update -y \
     && curl -fL -o docker.tgz "https://download.docker.com/linux/static/${DOCKER_CHANNEL}/${ARCH}/docker-${DOCKER_VERSION}.tgz" \
     && tar --extract \
-			--file docker.tgz \
-			--strip-components 1 \
-			--directory /usr/bin/ \
-		&& rm -f docker.tgz \
-		dockerd -v; \
-		docker -v
+      --file docker.tgz \
+      --strip-components 1 \
+      --directory /usr/bin/ \
+  && rm -f docker.tgz \
+  && dockerd -v \
+  && docker -v \
+  && mkdir -p /var/log/supervisor \
+  && yum clean all -y \
+  && rm -rf /var/cache/yum/*
